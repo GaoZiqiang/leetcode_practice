@@ -67,6 +67,8 @@ public:
 class Solution2 {
 public:
     double baseMul(double x,long long N) {
+        if (N == 0)
+            return 1.0;
         double ans = 1.0;
         /*贡献的初始值为x*/
         double x_contribution = x;
@@ -85,6 +87,10 @@ public:
     }
 
     double myPow(double x,int n) {
+        /*考虑特殊情况*/
+        if (x ==0 || x == 1)
+            return x;
+
         long long N = n;
         return N >= 0 ? baseMul(x,N) : 1.0 / baseMul(x,N);
     }
@@ -96,8 +102,8 @@ int main() {
 
     Solution2 *solution2 = new Solution2();
 
-    int x = 2;
-    int n = 10;
+    int x = 25;
+    int n = 2;
 
     cout << x << "^" << n << " is " << solution2->myPow(x,n) << endl;
 }
