@@ -40,6 +40,10 @@ public:
     }
 
     double myPow(int x,int n) {
+        /*考虑特殊情况*/
+        if (x ==0 || x == 1)
+            return x;
+
         /*n为正数*/
         if (n >= 0)
             return baseMul(x,n);
@@ -48,13 +52,3 @@ public:
             return 1.0 / baseMul(x,n);
     }
 };
-
-/*测试*/
-int main() {
-    Solution *solution = new Solution();
-
-    int x =2;
-    int n = 10;
-
-    cout << x << "^" << n << " is " << solution->myPow(x,n) << endl;
-}
