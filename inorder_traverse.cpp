@@ -70,7 +70,6 @@ vector<ELEM_TYPE> inorderTraverse(BiTree &root) {
             res.push_back(node->data);
             /*访问*/
             visit(node);
-//            cout << "visited node:" << node->data << endl;
             /*将栈顶节点出栈*/
             s.pop();
             /*3 work指针指向右子树*/
