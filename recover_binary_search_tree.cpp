@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 /*两种宏?定义方式*/
-#define ELEM_TYPE char
+#define ELEM_TYPE int
 //typedef char ELEM_TYPE;
 using namespace std;
 
@@ -24,7 +24,7 @@ void createBiTreePre(BiTree &BT) {// 使用引用，不会改变原数组的地�
     cin >> ch;// 这里输入的字符会转换成ASSIC码
 
     /*创建左右子树*/
-    if (ch == '0')// 叶子节点后为'0'--输入'0'表示节点结束，没有子节点 切记：此处ch值类型为char
+    if (ch == 0)// 叶子节点后为'0'--输入'0'表示节点结束，没有子节点 切记：此处ch值类型为char
         BT = NULL;
     else {
         BT = new BiTNode;// 创建新节点
@@ -65,38 +65,69 @@ pair<int,int> findTwoSwapped(vector<int> nums) {
     int n = nums.size();
     int x = -1, y = -1;// x y的初始值定义为-1 x存大的，y存小的
     int count = 0;// 记录出错的元素次数
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n - 1; ++i) {// 为什么？？？
+        cout << "i: " << i << endl;
+        cout << "findTwoSwapped:nums[i]: " << nums[i] << endl;
+        cout << "findTwoSwapped:nums[i+1]: " << nums[i+1] << endl;
         if(nums[i+1] < nums[i]) {
-            count += 1;
-            if (count == 1)// 第一次
-                x = nums[i];// x存大的，第一次大的为错序的 大的被换到前面去了
-            else if (count == 2)// 第二次
-                y = nums[i+1];// y存小的，第二次小的为错序的 小的被换到后面去了
+            cout << "nums[i+1] < nums[i]: i is:" << i <<endl;
+            y = nums[i+1];
+            if (x == -1)
+                x = nums[i];
+//            count += 1;
+//            if (count == 1)// 第一次
+//                x = nums[i];// x存大的，第一次大的为错序的 大的被换到前面去了
+//            else if (count == 2)// 第二次
+//                y = nums[i+1];// y存小的，第二次小的为错序的 小的被换到后面去了
         }
     }
 
+    cout << "x: " << x << endl;
+    cout << "y: " << y << endl;
     return {x, y};
 }
 
 // 先序遍历递归recover
-void recover(BiTree &r, int count, int x, int y) {
-    if (r != nullptr) {
-        if (r->data == x)// 第一个出错的元素，大的，x
-            r->data = y;// 重新赋值为小的，y
-        else if (r->data == y)// 第二个出错的元素，小的，y
-            r->data = x;// 重新赋值为大的，x
-        count -= 1;// 修正一个
-        if (count == 0)
+void recover(BiTree &root, int count, int x, int y) {
+//    if (r != nullptr) {
+//        if (r->data == x)// 第一个出错的元素，大的，x
+//        {
+//            cout << "r->data == x, r->data: " << r->data << endl;
+//            r->data = y;// 重新赋值为小的，y
+//        }
+//
+//        else if (r->data == y)// 第二个出错的元素，小的，y
+//        {
+//            cout << "r->data == y, r->data: " << r->data << endl;
+//            r->data = x;// 重新赋值为大的，x
+//        }
+
+//
+//        count -= 1;// 修正一个
+//        if (count == 0)
+//            return;
+//    }
+
+    if (root->data == x || root->data == y) {
+        root->data = root->data == x ? y : x;
+        if (--count == 0) {
             return;
+        }
     }
-    recover(r->lchild, count, x, y);
-    recover(r->rchild, count, x, y);
+
+    recover(root->lchild, count, x, y);
+    recover(root->rchild, count, x, y);
 }
 
 // recover
 void recoverTree(BiTree &root) {
     vector<int> nums;
+
     inorder(root,nums);
+    for(int i = 0; i< nums.size(); i++) {
+        //cout << "nums[i]:" << nums[i] << endl;
+        printf("nums[i]: %d\n",nums[i]);
+    }
     pair<int,int> swapped = findTwoSwapped(nums);
     recover(root, 2, swapped.first, swapped.second);
 }
