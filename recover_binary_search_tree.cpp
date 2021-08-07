@@ -1,3 +1,7 @@
+/* leetcode T99:恢复二叉搜索树
+ * 原题链接：https://leetcode-cn.com/problems/recover-binary-search-tree/
+ * */
+
 #include <vector>
 #include <iostream>
 #include <stack>
@@ -7,6 +11,19 @@
 #define ELEM_TYPE int
 //typedef char ELEM_TYPE;
 using namespace std;
+
+/* 方法一：显式中序遍历法
+ *
+ * 整体算法思想如下：
+ * 1 找到二叉搜索树中序遍历得到值序列的不满足条件的位置
+ * 2 将位置出现问题的元素找出
+ * 3 将出问题的两个元素恢复原位置
+ *
+ * 复杂度分析：
+ * 时间复杂度：O(n)，两次遍历（中序遍历和recover）需要O(n)，查找x和y需要O()，共计O(n)
+ * 空间复杂度：O(n)，需要一个长度为n的数组存放遍历结果
+ * */
+
 
 /*存储结构*/
 typedef struct TreeNode {
@@ -42,7 +59,7 @@ void visit(BiTNode *node) {
     cout << "visited node:" << node->data << endl;
 }
 
-// 递归中序遍历
+// 递归中序遍历并返回遍历结果
 void inorder(BiTree &root,vector<int> &nums) {
     if (root == nullptr)
         return;
@@ -52,6 +69,7 @@ void inorder(BiTree &root,vector<int> &nums) {
     inorder(root->rchild,nums);
 }
 
+// 只进行中序遍历，并打印输出遍历结果
 void inorder_traverse(BiTree &root) {
     if (root == nullptr)
         return;
@@ -64,74 +82,48 @@ void inorder_traverse(BiTree &root) {
 pair<int,int> findTwoSwapped(vector<int> nums) {
     int n = nums.size();
     int x = -1, y = -1;// x y的初始值定义为-1 x存大的，y存小的
-    int count = 0;// 记录出错的元素次数
+//    int count = 0;// 记录出错的元素次数
     for (int i = 0; i < n - 1; ++i) {// 为什么？？？
-        cout << "i: " << i << endl;
-        cout << "findTwoSwapped:nums[i]: " << nums[i] << endl;
-        cout << "findTwoSwapped:nums[i+1]: " << nums[i+1] << endl;
         if(nums[i+1] < nums[i]) {
-            cout << "nums[i+1] < nums[i]: i is:" << i <<endl;
             y = nums[i+1];
             if (x == -1)
                 x = nums[i];
-//            count += 1;
-//            if (count == 1)// 第一次
-//                x = nums[i];// x存大的，第一次大的为错序的 大的被换到前面去了
-//            else if (count == 2)// 第二次
-//                y = nums[i+1];// y存小的，第二次小的为错序的 小的被换到后面去了
         }
     }
 
-    cout << "x: " << x << endl;
-    cout << "y: " << y << endl;
     return {x, y};
 }
 
 // 先序遍历递归recover
 void recover(BiTree &root, int count, int x, int y) {
-//    if (r != nullptr) {
-//        if (r->data == x)// 第一个出错的元素，大的，x
-//        {
-//            cout << "r->data == x, r->data: " << r->data << endl;
-//            r->data = y;// 重新赋值为小的，y
-//        }
-//
-//        else if (r->data == y)// 第二个出错的元素，小的，y
-//        {
-//            cout << "r->data == y, r->data: " << r->data << endl;
-//            r->data = x;// 重新赋值为大的，x
-//        }
-
-//
-//        count -= 1;// 修正一个
-//        if (count == 0)
-//            return;
-//    }
-
-    if (root->data == x || root->data == y) {
-        root->data = root->data == x ? y : x;
-        if (--count == 0) {
-            return;
+    if (root != nullptr) {
+        if (root->data == x || root->data == y) {
+            root->data = root->data == x ? y : x;
+            if (--count == 0) {
+                return;
+            }
         }
+        recover(root->lchild, count, x, y);
+        recover(root->rchild, count, x, y);
     }
 
-    recover(root->lchild, count, x, y);
-    recover(root->rchild, count, x, y);
+
 }
 
 // recover
 void recoverTree(BiTree &root) {
     vector<int> nums;
-
+    /*得到中序遍历的结果*/
     inorder(root,nums);
-    for(int i = 0; i< nums.size(); i++) {
-        //cout << "nums[i]:" << nums[i] << endl;
-        printf("nums[i]: %d\n",nums[i]);
-    }
+
+    /*找到被交换的--有问题的 节点*/
     pair<int,int> swapped = findTwoSwapped(nums);
+
+    /*进行恢复*/
     recover(root, 2, swapped.first, swapped.second);
 }
 
+/*测试*/
 int main() {
     BiTree BT;
 
