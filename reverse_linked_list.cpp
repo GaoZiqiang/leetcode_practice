@@ -1,11 +1,11 @@
-/* leetcode T2:两数相加
- * 原题链接：https://leetcode-cn.com/problems/add-two-numbers/
+/* leetcode T206:反转链表
+ * 原题链接：https://leetcode-cn.com/problems/reverse-linked-list/
  * */
 
 #include <malloc.h>
 #include <stdio.h>
 
-/* 方法一：基于遍历实现两链表元素相加
+/* 方法一：基于遍历实现
  *
  * 算法思想一：
  * 借用原链表表头，每遍历一个节点，便将该节点头插到头结点之后，指头原表便利结束。
