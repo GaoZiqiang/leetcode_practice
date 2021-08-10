@@ -16,54 +16,52 @@
  * 空间复杂度：O(1)
  * */
 
-typedef struct NODE
-{
+typedef struct LNode {
     int data;
-    struct NODE* next;
-
-}NODE,*PNODE;
+    struct LNode* next;
+}LNode,*LinkList;
 
 /*创建单链表*/
-PNODE createList(int * num)
-{
+LinkList createList(int * num) {
     // 创建头结点
-    PNODE pHead = (PNODE)malloc(sizeof(struct NODE));
+    LinkList head = (LinkList)malloc(sizeof(struct LNode));
 
     // 工作指针指向头结点
-    PNODE p = pHead;// 创建工作指针p
+    LinkList p = head;// 创建工作指针p
     p->next = NULL;// 尾指针置空
 
     int i = 0;
     while(num[i])// 无法直接获取数组的长度
     {
-        PNODE pNew = (PNODE)malloc(sizeof(struct NODE));
+        LinkList new_node = (LinkList)malloc(sizeof(struct LNode));
 
-        pNew->data = num[i];
+        new_node->data = num[i];
         // 尾插法
-        p->next = pNew;
-        pNew->next = NULL;
-        p=pNew;
+        p->next = new_node;
+        new_node->next = NULL;
+        p = new_node;
         i++;
     }
-    return pHead;
+
+    return head;
 }
 
 /*单链表遍历*/
-void traverseList(PNODE pHead)
-{
-    PNODE p = pHead->next;
+void traverseList(LinkList head) {
+    LinkList p = head->next;
     while(p)
     {
         printf("%d  ",p->data);
         p = p->next;
     }
     printf("\n");
+
     return;
 }
 
 /*两链表元素相加*/
-PNODE addTwoSum(PNODE l1, PNODE l2) {
-    PNODE head = nullptr, tail = nullptr;// 头指针、尾指针
+LinkList addTwoSum(LinkList l1, LinkList l2) {
+    LinkList head = nullptr, tail = nullptr;// 头指针、尾指针
     int temp = 0;// 进位
 
     while(l1 != nullptr || l2 != nullptr) {
@@ -78,13 +76,13 @@ PNODE addTwoSum(PNODE l1, PNODE l2) {
             values = values % 10;
 
         if (head == nullptr) {
-            head = tail = (PNODE)malloc(sizeof(struct NODE));
+            head = tail = (LinkList)malloc(sizeof(struct LNode));
         }else {
-            PNODE pNew = (PNODE)malloc(sizeof(struct NODE));
-            pNew->data = values;
+            LinkList new_node = (LinkList)malloc(sizeof(struct LNode));
+            new_node->data = values;
             // 尾插法
-            tail->next = pNew;
-            tail = pNew;
+            tail->next = new_node;
+            tail = new_node;
         }
         if (l1)
             l1 = l1->next;
@@ -94,9 +92,9 @@ PNODE addTwoSum(PNODE l1, PNODE l2) {
     }
 
     if (temp > 0) {
-        PNODE pNew = (PNODE)malloc(sizeof(struct NODE));
-        tail->next = pNew;
-        tail = pNew;
+        LinkList new_node = (LinkList)malloc(sizeof(struct LNode));
+        tail->next = new_node;
+        tail = new_node;
     }
 
     tail->next = nullptr;// 尾指针置空
@@ -109,19 +107,20 @@ int main()
 {
     // 创建单链表1
     int num1[10] = {5,4,3,1};
-    PNODE pHead1 = NULL;
-    pHead1 = createList(num1);
-    traverseList(pHead1);
+    LinkList list1 = NULL;
+    list1 = createList(num1);
+    traverseList(list1);
 
     // 创建单链表2
     int num2[10] = {5,6,4};
-    PNODE pHead2 = NULL;
-    pHead2 = createList(num2);
-    traverseList(pHead2);
+    LinkList list2 = NULL;
+    list2 = createList(num2);
+    traverseList(list2);
 
     // 两链表相加
-    PNODE result = addTwoSum(pHead1, pHead2);
+    LinkList result = addTwoSum(list1, list2);
     // 遍历输出
     traverseList(result);
+
     return 0;
 }
