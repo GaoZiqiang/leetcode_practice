@@ -50,7 +50,7 @@ LinkList createList(int * num) {// LinkList是个指针--地址
 /*单链表遍历*/
 void traverseList(LinkList head) {
     // 从head之后的第一个节点开始遍历
-    LinkList p = head->next;
+    LinkList p = head->next;// 头指针不保存data
     while(p)
     {
         printf("%d  ",p->data);
