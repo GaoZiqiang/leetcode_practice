@@ -73,7 +73,7 @@ LinkList swapNodePair(LinkList L) {
 
 //    L->next = work;
 
-    while((pre->next) && (work)) {
+    while(work) {// 使用work指针做判断即可，不需要pre和work两个指针
         temp = pre;// 暂存断点位置
 
         // 进行交换
@@ -81,11 +81,13 @@ LinkList swapNodePair(LinkList L) {
         work->next = pre;
         ppre->next = work;// 防止断链
 
-        if (!pre->next)
-            break;
-        else
+        if(pre->next)
             pre = pre->next;
-        work = pre->next;
+        else
+            break;
+        if(pre->next)
+            work = pre->next;
+
         ppre = temp;// 更新断点位置
     }
 
