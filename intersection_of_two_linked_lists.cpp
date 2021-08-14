@@ -9,8 +9,18 @@
  *
  * 参见方法二：https://leetcode-cn.com/problems/intersection-of-two-linked-lists/solution/xiang-jiao-lian-biao-by-leetcode-solutio-a8jn/
  *
+ * 大体思路：
+ * x->x->x->x(a)
+ *          |
+ *          x->x->x(c)
+ *          ^
+ *          |
+ *       x->x(b)
+ * 在a指针移动a+c距离和b指针移动b+c+(a-b)距离之后，两指针来到同一个起跑线，然后移动同时移动b个距离即a指针共移动
+ * a+c+b个节点距离，b指针共移动b+c+a节点距离之后，二者相遇，到达相交节点。
+ *
  * 复杂度分析：
- * 时间复杂度：O(m+n)，两个指针同时遍历两个链表，每个指针各遍历每个链表一次
+ * 时间复杂度：O(m+n)，两个指针同时遍历两个链表，每个指针各遍历每个链表一次O(m+n+a+b)
  * 空间复杂度：O(1)，不需要额外的辅助空间。
  * */
 
