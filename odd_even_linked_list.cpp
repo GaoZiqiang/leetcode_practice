@@ -95,6 +95,8 @@ LinkList oddEvenList(LinkList head) {// LinkList oddEvenList(LinkList head)
 
     work_odd->next = head_even;
     head->next = head_odd;
+
+    return head;
 }
 
 /*测试*/
