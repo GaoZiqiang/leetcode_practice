@@ -17,6 +17,17 @@
  * 复杂度分析：
  * 时间复杂度：O(n)，其中n指的是链表的大小。
  * 空间复杂度：O(1)，只需维护有限的指针。
+ *
+ * 方法二：对方法一的优化
+ * 关键：
+ * 1 不管链表长度为奇为偶，我都假定头结点head为第一个奇数节点，head->next为第一个偶数节点--大大简化了问题思考难度
+ * 2 因为奇数节点在前，所以线更新奇数节点，具体如下：
+ * odd->next = even->next;// odd指向even的下一个节点--隔一个节点
+ * odd = odd->next;// odd移向新的odd
+ * even->next = odd->next;
+ * even = even->next;
+ * 3 最后连接两个奇偶链表
+ * head->next = even_head;//用even_head = head->next来暂存偶数链表的头结点
  * */
 
 typedef struct LNode {
@@ -64,6 +75,10 @@ void traverseList(LinkList head) {
 }
 
 LinkList oddEvenList(LinkList head) {// LinkList oddEvenList(LinkList head)
+    // 边界条件
+    if (!head)
+        return head;
+
     // 冗余指针过多，有待优化
     LNode *odd = head->next, *even = head->next->next;
     LNode *work_odd, *work_even;
@@ -95,6 +110,30 @@ LinkList oddEvenList(LinkList head) {// LinkList oddEvenList(LinkList head)
 
     work_odd->next = head_even;
     head->next = head_odd;
+
+    return head;
+}
+
+// 优化方法一
+LinkList oddEvenList2(LinkList head) {
+    if (!head)
+        return head;
+
+    LNode *even_head = head->next;// even head
+    LNode *odd = head;
+    LNode *even = even_head;
+    printf("even_head: %d\n",even->data);
+
+    while (even && even->next) {
+        odd->next = even->next;
+        odd = odd->next;
+
+        even->next = odd->next;
+        even = even->next;
+    }
+
+    // 进行拼接
+    odd->next = even_head;
 
     return head;
 }
