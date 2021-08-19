@@ -8,7 +8,7 @@
 /* 方法一：奇偶节点分离再合并
  *
  * 算法思想：
- * 借鉴赵中间节点的思想，通过指针每次移动两个节点，使两起点错位，从而实现奇、偶节点分类的目的。
+ * 借鉴找中间节点的思想，通过指针每次移动两个节点，使两起点错位，从而实现奇、偶节点分类的目的。
  *
  * 易错点：
  * 1 while循环的终止条件
@@ -122,7 +122,6 @@ LinkList oddEvenList2(LinkList head) {
     LNode *even_head = head->next;// even head
     LNode *odd = head;
     LNode *even = even_head;
-    printf("even_head: %d\n",even->data);
 
     while (even && even->next) {
         odd->next = even->next;
