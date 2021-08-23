@@ -61,6 +61,7 @@ void traverseList(LinkList head) {
     return;
 }
 
+/*插入排序*/
 LinkList sortList(LinkList head) {
     if (!head || !head->next || !head->next->next)// 空链表/只有头结点/只有一个节点
         return head;
@@ -93,6 +94,7 @@ LinkList sortList(LinkList head) {
     return head;
 }
 
+/*测试*/
 int main() {
     int num_list[10] = {4,6,2,5,7};
     LinkList list = nullptr;
