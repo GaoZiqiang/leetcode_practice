@@ -125,7 +125,6 @@ bool isPalindromeLinkedList(LinkList head) {
 
     // 恢复原链表
     middle_node->next = reverse(head_)->next;
-//    traverseList(head);
 
     if (work2)// 如果work2没有遍历完--work2提前遍历结束--中间有不匹配节点
         return false;
