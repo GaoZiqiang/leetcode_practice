@@ -76,6 +76,9 @@ void traverseList(LinkList head) {
 
 // 1 找中间节点
 LNode * findMiddleNode(LinkList head) {
+    if (!head)
+        return head;
+
     LNode *slow = head->next, *fast = head->next;// 起点应该为第一个节点
 
     while (fast->next && fast->next->next) {
@@ -109,9 +112,7 @@ LNode * reverse(LinkList head) {
 // 3 前后两部分进行回文比较
 bool isPalindromeLinkedList(LinkList head) {
     LNode *middle_node = findMiddleNode(head);
-    printf("middle_node->data: %d\n",middle_node->data);
     LNode *head_ = reverse(middle_node);
-    printf("head_->data: %d\n",head_->data);
 
     LNode *work1 = head->next, *work2 = head_->next;
 
