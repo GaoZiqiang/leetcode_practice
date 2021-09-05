@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <algorithm>
 
-/* 方法一：贪心
+/* 方法一：排序+贪心
  *
  * 算法思想：
  * 核心思想：
@@ -34,7 +34,7 @@ vector<vector<int>> removeElement(vector<vector<int>> &intervals, int i) {
     return intervals;
 }
 
-/*按照区间尾部元素排序*/
+/*按照区间尾部元素升序排序*/
 int cmpByTail(const vector<int> &x, const vector<int> &y) {
     return x[1] < y[1];
 }
@@ -75,17 +75,17 @@ int eraseOverlapInstervals2(vector<vector<int>> &intervals) {
     if (intervals.empty())
         return 0;
 
-    // 按照区间尾部元素排序
+    // 按照区间尾部元素升序排序
     sort(intervals.begin(), intervals.end(), cmpByTail);
 
     int delete_num = 0, len = intervals.size();;
     int prev = intervals[0][1];// 暂存
 
     for (int i = 1; i < len; i++) {// 从i=1开始，第一个作为保留
-        if (intervals[i][0] < prev)
+        if (intervals[i][0] < prev)// 需要移除
            ++delete_num;
         else
-            prev = intervals[i][1];
+            prev = intervals[i][1];// 不用移除，判断下一个--同时更新prev
     }
     return delete_num;
 }
