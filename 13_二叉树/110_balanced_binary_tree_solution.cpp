@@ -57,6 +57,7 @@ int helper(BiTree &root) {
 
     int left = helper(root->lchild), right = helper(root->rchild);
 
+    // left == -1 || right == -1表示该子树为不平衡的子树,此时便可以退出算法判断--避免子树不平衡后还要继续回溯其父辈节点--节省成本
     if (left == -1 || right == -1 || abs(left - right) > 1)
         return -1;
 
