@@ -38,12 +38,11 @@ void createBiTreePre(BiTree &BT) {// 使用引用，不会改变原数组的地�
         createBiTreePre(BT->lchild);// 先把左子树创建完
         createBiTreePre(BT->rchild);// 再创建右子树
     }
-
     // return BT;// 使用引用形参，就不用返回创建好的树，而使用指针作为形参则需要进行返回值，返回创建好的那棵树
 }
 
 /*先序遍历实现方式*/
-vector<ELEM_TYPE> inorderTraverse(BiTree &root) {
+vector<ELEM_TYPE> preorderTraverse(BiTree &root) {
     /*保存遍历结果*/
     vector<ELEM_TYPE> res;
     /*初始化辅助栈*/
@@ -69,7 +68,6 @@ vector<ELEM_TYPE> inorderTraverse(BiTree &root) {
     }
 
     return res;
-
 }
 
 /*测试*/
@@ -79,5 +77,5 @@ int main() {
     /*创建树*/
     createBiTreePre(BT);
     /*先序遍历*/
-    inorderTraverse(BT);
+    preorderTraverse(BT);
 }
