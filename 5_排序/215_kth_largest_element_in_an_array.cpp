@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <malloc.h>
 
-/* 方法一：插入排序
+/* 方法一：基于快速排序
  *
  * 算法思想：
  * 关键点一：比较枢pivot的下标序号index--序列是从小到大排序，第k个大的元素下标为len - k，
