@@ -28,7 +28,7 @@
  * */
 
 
-// 实现方法
+// 实现方法1--从上到下
 #include <unordered_map>
 #include <utility>
 
@@ -49,5 +49,35 @@ public:
         // 存入map
         sum_map.emplace(pair<int, int>(n, sum));
         return sum;
+    }
+};
+
+// 实现方法2
+class Solution {
+public:
+    int climbStairs(int n) {
+        if (n <= 2) return n;
+        vector<int> dp(n+1, 1);
+        for (int i = 2; i <= n; ++i) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
+    }
+};
+
+// 实现方法3--对动态规划进行空间压缩
+// 因为 dp[i] 只与 dp[i-1] 和 dp[i-2] 有关,因此
+// 可以只用两个变量来存储 dp[i-1] 和 dp[i-2],使得原来的 O(n) 空间复杂度优化为 O(1) 复杂度。
+class Solution {
+public:
+    int climbStairs(int n) {
+        if (n <= 2) return n;
+        int pre2 = 1, pre1 = 2, cur;
+        for (int i = 2; i < n; ++i) {
+            cur = pre1 + pre2;
+            pre2 = pre1;
+            pre1 = cur;
+        }
+        return cur;
     }
 };
