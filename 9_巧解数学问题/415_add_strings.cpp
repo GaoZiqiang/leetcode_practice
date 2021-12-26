@@ -30,8 +30,8 @@ string addStrings(string num1, string num2) {
     int i = num1.size() - 1, j = num2.size() - 1, add = 0;
     string ans = "";
     while (i >= 0 || j >= 0 || add != 0) {
-        int n1 = num1[i] >= 0 ? num1[i] - '0' : 0;// 超出字符串/数组边界则num[i]<0?
-        int n2 = num2[j] >= 0 ? num2[j] - '0' : 0;
+        int n1 = i >= 0 ? num1[i] - '0' : 0;// 超出字符串/数组边界(j/j < 0)则置为0
+        int n2 = j >= 0 ? num2[j] - '0' : 0;
         int bit_sum = n1 + n2 + add;// 各位相加
         ans.push_back('0' + bit_sum % 10);// 存余数s
         add = bit_sum / 10;// 计算进位
@@ -46,6 +46,6 @@ string addStrings(string num1, string num2) {
 }
 
 int main() {
-    string num1 = "123", num2 = "458";
-    cout << addStrings(num1, num2) << endl;
+    string num1 = "13", num2 = "458";
+    cout << "ans = " << addStrings(num1, num2) << endl;
 }
