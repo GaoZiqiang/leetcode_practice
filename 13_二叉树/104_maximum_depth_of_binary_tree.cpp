@@ -13,6 +13,12 @@
  * 复杂度分析：
  * 时间复杂度：O(n)，每个节点遍历一次。
  * 空间复杂度：O(1)，不需要额外空间。
+ *
+ * 方法二：回溯+递归
+ *
+ * 复杂度分析：
+ * 时间复杂度：O(n)，每个节点遍历一次。
+ * 空间复杂度：O(logn)，递归，高度为logn。
  * */
 
 /*两种宏?定义方式*/
@@ -56,7 +62,9 @@ int maxDepth(BiTree &root) {
     int depth = 0;
 
     while (!queue.empty()) {
+        // 当前queue_sz即为当前层的节点数
         int queue_sz = queue.size();
+        // 控制层数
         while (queue_sz > 0) {
             BiTNode * tmp_node = queue.front(); queue.pop();
             if (tmp_node->lchild)
@@ -79,4 +87,36 @@ int main() {
     createBiTreePre(BT);
 
     printf("depth: %d\n", maxDepth(BT));
+}
+
+// 方法二：递归+回溯
+// 回溯
+void backTracking(TreeNode* root, int& depth, int& level) {
+    // 终止条件
+    if (!root->left && !root->right) {
+        depth = max(depth, level);
+        return;
+    }
+    // 横向--单层循环
+    if (root->left) {
+        level++;
+        backTracking(root->left, depth, level);
+        level--;
+    }
+    // 纵向--递归
+    if (root->right) {
+        level++;
+        backTracking(root->right, depth, level);
+        level--;
+    }
+    return;
+}
+
+int maxDepth(TreeNode* root) {
+    if (!root) {
+        return 0;
+    }
+    int level = 1, depth = 0;// level初值为1
+    backTracking(root, depth, level);
+    return depth;
 }
