@@ -69,3 +69,21 @@ public:
         return cur;
     }
 };
+
+// 利用完全背包思想求解
+int climbStairs(int n) {
+    if (n < 3) {
+        return n;
+    }
+    vector<int> dp(n+1);
+    int steps[2] = {1, 2};
+    dp[0] = 1;
+    for (int j = 1; j <= n; j++) {
+        for (int i = 1; i <= 2; i++) {
+            if (j >= i) {
+                dp[j] += dp[j-steps[i-1]];
+            }
+        }
+    }
+    return dp[n];
+}
