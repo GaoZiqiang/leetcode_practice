@@ -6,18 +6,17 @@
  * 关键点：
  * 1 虚拟头结点
  * 2 尾指针?
+ *   使用尾指针，需要管理尾指针的更新，也比较麻烦
  * */
 
 class MyLinkedList {
 private:
     ListNode* pseudoHead;
-    ListNode* tail;
     int m_size;
 public:
     MyLinkedList() {
         pseudoHead = new ListNode();
         pseudoHead->next = nullptr;
-        tail = nullptr;
         m_size = 0;
     }
 
@@ -38,8 +37,6 @@ public:
         tmp->next = pseudoHead->next;
         pseudoHead->next = tmp;
         m_size++;
-        if (m_size == 1)
-            tail = tmp;
         return;
     }
 
@@ -53,12 +50,6 @@ public:
         pre->next = tmp;
         tmp->next = nullptr;
         m_size++;
-        // 方法二
-        // ListNode* tmp = new ListNode(val);
-        // tmp->next = nullptr;
-        // tail->next = tmp;
-        // tail = tmp;
-        // m_size++;
         return;
     }
 
