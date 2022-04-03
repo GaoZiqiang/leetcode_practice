@@ -50,3 +50,35 @@ bool canPartition(vector<int>& nums) {
     }
     return dp[n-1][target];
 }
+
+// 空间优化
+bool canPartition(vector<int>& nums) {
+    int n = nums.size();
+    if (n < 2)
+        return false;
+    int sum = 0;
+    int maxNum = 0;
+    for (auto& x : nums) {
+        sum += x;
+        maxNum = max(maxNum, x);
+    }
+    if (sum % 2 != 0)
+        return false;
+    int target = sum / 2;
+    if (maxNum > target)
+        return false;
+    vector<bool> dp(target+1, false);
+    dp[0] = true;
+    dp[nums[0]] = true;
+    for (int i = 1; i < n; i++) {
+        int num = nums[i];
+        for (int j = target; j >= 1; j--) {
+            if (num > j) {
+                dp[j] = dp[j];
+            } else {
+                dp[j] = dp[j] | dp[j-num];
+            }
+        }
+    }
+    return dp[target];
+}
