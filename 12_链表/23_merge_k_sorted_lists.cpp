@@ -13,6 +13,14 @@
  * 复杂度分析：
  * 时间复杂度：O(k^2*n)，每个链表都要与剩下k-1个链表进行比较，每次合并的时间复杂度为O(n)。
  * 空间复杂度：O(1)。
+ *
+ * 方法二：分治合并
+ * 算法思想：
+ * 基于分治，两两合并
+ *
+ * 复杂度分析：
+ * 时间复杂度：O(kn*logk)，
+ * 空间复杂度：O(logk)，递归。
  * */
 
 #include <vector>
@@ -27,6 +35,7 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
+// 顺序合并
 ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
     ListNode* pseudoHead = new ListNode();// 相当于新建一个链表
     ListNode* ans = pseudoHead;
@@ -61,4 +70,41 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
         tmpHead = mergeTwoLists(tmpHead, lists[i]);
     }
     return tmpHead;
+}
+
+// 分治合并
+ListNode* mergeTwoLists(ListNode* head1, ListNode* head2) {
+    ListNode* pseudoHead = new ListNode();// 相当于新建一个链表
+    ListNode* ans = pseudoHead;
+    ListNode* cur1 = head1;
+    ListNode* cur2 = head2;
+
+    while (cur1 && cur2) {
+        if (cur1->val < cur2->val) {
+            ans->next = cur1;
+            ans = cur1;
+            cur1 = cur1->next;
+        } else {
+            ans->next = cur2;
+            ans = cur2;
+            cur2 = cur2->next;
+        }
+    }
+
+    if (cur1 != nullptr)
+        cur2 = cur1;
+    ans->next = cur2;
+
+    return pseudoHead->next;
+}
+
+ListNode* merge(vector<ListNode*>& lists, int l, int r) {
+    if (l == r) return lists[l];
+    if (l > r) return nullptr;
+    int mid = (l + r) >> 1;
+    return mergeTwoLists(merge(lists, l, mid), merge(lists, mid + 1, r));
+}
+
+ListNode* mergeKLists(vector<ListNode*>& lists) {
+    return merge(lists, 0, lists.size() - 1);
 }
