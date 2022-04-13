@@ -5,7 +5,9 @@
 #include <vector>
 #include <stdio.h>
 
-/* 方法一：贪心算法
+/* 方法一：贪心算法+一阶差分
+ *
+ * 算法思想：
  * 贪心算法--从小处着手--有利可图就上--
  * 在每两个相邻的日子里，只要有利可图（股票升值），都赚取其中的差价即可。
  *
@@ -28,6 +30,20 @@ int maxProfit(vector<int> & prices) {
     }
 
     return profit;
+}
+
+int maxProfit(vector<int>& prices) {
+    int res = 0;
+    int pre = INT_MAX;
+
+    for (auto& price : prices) {
+        if (price > pre) {
+            res += price - pre;
+        }
+        pre = price;
+    }
+
+    return res;
 }
 
 int main() {
