@@ -14,6 +14,9 @@
  * 关键点一：无论nums[mid]在哪个位置，总有一边/一半是有序的，第一步是确定有序的那一边；
  * 关键点二：判断target是否在有序的那一半，若在，则继续在有序的那一边进行二分查找；若不在，则到另一边（无序）进行查找；
  *
+ * 关键点：
+ * 1 target是可以等于nums[left]和nums[right]的，因为每次判断目标达成的条件是target=nums[mid]
+ * 也就变成了target <= nums[right]和target >= nums[left]
  * 复杂度分析：
  * 时间复杂度：O(logn)，每次都是二分查找。
  * 空间复杂度：O(1)，原地操作。
@@ -52,3 +55,30 @@ public:
         return -1;
     }
 };
+
+// 我的答案
+int search(vector<int>& nums, int target) {
+    int n = nums.size();
+    int left = 0, right = n - 1;
+
+    while (left <= right) {
+        int mid = (left + right) >> 1;
+        int num = nums[mid];
+        if (num == target) return mid;
+        if (num < nums[n-1]) {// 右侧有序
+            if (num < target && target <= nums[right]) {// target在右侧
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        } else {// 左侧有序
+            if (target >= nums[left] && target < num) {// target在左侧
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+    }
+
+    return -1;
+}
