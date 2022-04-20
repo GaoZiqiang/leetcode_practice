@@ -56,9 +56,23 @@ int findMinArrowShots(vector<vector<int>> &points) {
     return arrow_num;
 }
 
-/*测试*/
-int main() {
-    vector<vector<int>> vec = {{1,2},{2,3},{3,4},{4,5}};
-    int delete_num = findMinArrowShots(vec);
-    printf("delete_num: %d\n",delete_num);
+// 我的解法
+int findMinArrowShots(vector<vector<int>>& points) {
+    int n = points.size();
+    int res = n;
+
+    // 按照x_start/左边界排序
+    std::sort(points.begin(), points.end());
+
+    int prev = points[0][1];
+    for (int i = 1; i < n; i++) {
+        if (points[i][0] <= prev) {// 存在重叠区域
+            prev = min(prev, points[i][1]);// 更新prev
+            res--;// 箭数减1
+        } else {// 没有重叠区域
+            prev = points[i][1];
+        }
+    }
+
+    return res;
 }
