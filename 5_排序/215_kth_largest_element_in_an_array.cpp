@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <malloc.h>
 
-/* 方法一：基于快速排序
+/* 方法一：基于快速排序+二分
  *
  * 算法思想：
  * 关键点一：比较枢pivot的下标序号index--序列是从小到大排序，第k个大的元素下标为len - k，
@@ -21,36 +21,36 @@
  * 空间复杂度：O(1)，原地操作。
  * */
 
-int findKthLargest(vector<int>& nums, int k) {
-    int target = nums.size() - k;
-    int low = 0, high = nums.size() - 1;
+// 分割
+int partition(vector<int>& a, int low, int high) {
+    int target = a[low];
 
+    // 从大到小排序
     while (low < high) {
-        // 这样只计算一次partition即可
-        int mid = partition(nums, low, high);
-        if (mid == target) {
-            return nums[target];
-        } else if (target < mid) {
-            high = mid - 1;
-            // mid = partition(nums, low, mid - 1);// 多浪费一次计算partition的时间
-        } else {
-            low = mid + 1;
-            // mid = partition(nums, mid + 1, high);
-        }
+        while (low < high && a[high] <= target) --high;// 小值在右边
+        a[low] = a[high];
+        while (low < high && a[low] >= target) ++low;// 大值在左边
+        a[high] = a[low];
     }
-    return nums[low];
+
+    a[low] = target;
+
+    return low;
 }
 
-int partition(vector<int>& nums, int low, int high) {
-    int pivot = nums[low];
-    while (low < high) {
-        // 先从左边开始--nums[low]被拿去作为pivot了，需要一个nums[high]来填充
-        while (low < high && nums[high] >= pivot) --high;
-        nums[low] = nums[high];
-        // 然后在比较右边
-        while (low < high && nums[low] <= pivot) ++low;
-        nums[high] = nums[low];
-    }
-    nums[low] = pivot;
-    return low;
+// 快排递归+二分优化
+int quickSort(vector<int>& a, int index, int low, int high) {
+    // 递归终止条件
+    if (low >= high) return a[low];
+
+    int mid = partition(a, low, high);
+
+    if (mid == index- 1) return a[mid];
+    // 只递归一半区间
+    return mid < index - 1 ? quickSort(a, index, mid + 1, high) : quickSort(a, index, low, mid - 1);
+}
+
+// 主函数
+int findKthLargest(vector<int>& nums, int k) {
+    return quickSort(nums, k, 0, nums.size() - 1);
 }
