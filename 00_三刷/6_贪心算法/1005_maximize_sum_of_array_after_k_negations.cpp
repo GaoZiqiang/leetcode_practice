@@ -31,7 +31,10 @@ int largestSumAfterKNegations(vector<int>& nums, int k) {
 
     for (int i = 0; i < n; i++) {
         // 小于0且绝对值最大的
-        if (nums[i] < 0 && k > 0) nums[i] = -nums[i];
+        if (nums[i] < 0 && k > 0) {
+            nums[i] = -nums[i];
+            k--;
+        }
     }
     // k仍大于0
     // 对绝对值最小的数取负
