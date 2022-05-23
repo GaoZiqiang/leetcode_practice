@@ -7,7 +7,7 @@
  *
  * 核心：
  * 如果当前点i所能到达的最远距离curDistance不能到达终点
- * -->则遍历/寻找[i, i+curDistance]之间的能够到达最远距离nextDistance的点(设为j)
+ * -->则遍历/寻找[i, i+curDistance]之间的能够到达最远距离nextDistance的点(设为j)--"这里需要逐项寻找最优解"
  * -->并跳转到该j+nextDistance处
  *
  * 时间复杂度：O(n)。
