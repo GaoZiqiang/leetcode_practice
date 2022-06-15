@@ -71,7 +71,7 @@ int maxProfit(vector<int>& prices) {
 
     for (int i = 1; i < n; i++) {
         // 持有股票(包括买入股票)
-        dp[i][0] = max(dp[i-1][0], dp[i-1][1] - prices[i]);
+        dp[i][0] = max(dp[i-1][0], dp[i-1][1] - prices[i]);// 买入时余额可能不是0
         // 不持有股票(包括卖出股票)
         dp[i][1] = max(dp[i-1][1], dp[i-1][0] + prices[i]);
     }
