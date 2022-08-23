@@ -32,11 +32,13 @@ int same_num(vector<int>& nums, int target) {
             // mid在中间
             } else {
                 // 往左边找
+                int origin_mid = mid;
                 while (mid >= 0 && nums[mid] == target) {
                     ans++;
                     mid--;
                 }
                 // 往右边找
+                mid = origin_mid;
                 while (mid < n && nums[mid] == target) {
                     ans++;
                     mid++;
